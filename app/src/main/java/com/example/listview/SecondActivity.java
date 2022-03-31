@@ -3,11 +3,8 @@ package com.example.listview;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -16,7 +13,6 @@ import android.widget.ListView;
 import com.example.listview.controller.PersonDao;
 import com.example.listview.model.Person;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class SecondActivity extends AppCompatActivity {
@@ -47,7 +43,7 @@ public class SecondActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // retrieve person clicked
-                Person person = PersonDao.getAllPersons().get(position);
+                Person person = PersonDao.getAll().get(position);
 
                 // create an intent to sent message to main activity
                 Intent intent = new Intent();

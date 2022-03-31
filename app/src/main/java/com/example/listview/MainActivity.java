@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,8 +23,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String PERSON_LIST_KEY = "PersonList";
 
+    private int currentPersonId = 0;
     private EditText surnameEditText;
     private EditText nameEditText;
+
 
     // declare a launcher to call an intent to start
     // an execution process ActivityResultContracts
@@ -53,12 +54,19 @@ public class MainActivity extends AppCompatActivity {
 
                         // get person in intent
                         Person person = (Person) data.getSerializableExtra(SecondActivity.PERSON_KEY);
-                        Log.d("App", "Return person" + person.toString());
-                        Toast.makeText(getBaseContext(), person.toString(), Toast.LENGTH_LONG).show();
+                        currentPersonId = person.getId();
+
+                        // reload from db
+                        Person personFromDao = PersonDao.findById(currentPersonId);
+                        surnameEditText.setText(personFromDao.getSurname());
+                        nameEditText.setText(personFromDao.getName());
+
+                        // log & Toast
+                        Log.d("App", "Return person" + personFromDao.toString());
+                        Toast.makeText(getBaseContext(), personFromDao.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             });
-
     }
 
     public void onClickSubmit(View view) {
@@ -70,16 +78,36 @@ public class MainActivity extends AppCompatActivity {
         // rajoute dans la db
         Person person = new Person(surname, name);
         person.setId(1); // 1 est la valeur default
-        PersonDao.addPerson(person);
+        PersonDao.save(person);
 
+        launchSecondActivity();
+    }
+
+    private void launchSecondActivity() {
         // Crée intent (message) pour demarrer second activity
         Intent intent = new Intent(this, SecondActivity.class);
 
         // on stock persons dans intent à envoyer SecondActivity
-        intent.putExtra(PERSON_LIST_KEY, (Serializable) PersonDao.getAllPersons());
+        intent.putExtra(PERSON_LIST_KEY, (Serializable) PersonDao.getAll());
 
         // start second activity with message
         // startActivity(intent);
         intentLauncher.launch(intent); // launch with a call back to process return data
+    }
+
+    public void onClickModify(View view) {
+
+        // get info from UI
+        String surname = surnameEditText.getText().toString();
+        String name = nameEditText.getText().toString();
+
+        // get current Person by id
+        Person person = PersonDao.findById(currentPersonId);
+        person.setName(name);
+        person.setSurname(surname);
+
+        PersonDao.update(person);
+
+
     }
 }

@@ -50,10 +50,29 @@
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="52dp"
         android:onClick="onClickSubmit"
         android:text="Submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
+
+    <Button
+        android:id="@+id/modifyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:onClick="onClickModify"
+        android:text="Modify"
+        app:layout_constraintStart_toStartOf="@+id/submitButton"
+        app:layout_constraintTop_toBottomOf="@+id/submitButton" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="Delete"
+        app:layout_constraintStart_toStartOf="@+id/modifyButton"
+        app:layout_constraintTop_toBottomOf="@+id/modifyButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

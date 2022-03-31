@@ -1,6 +1,8 @@
 package com.example.listview.model;
 
 import java.io.Serializable;
+import java.util.Objects;
+
 // on serialise objet Person, i.e. il est converti en chaine pour être
 // envoyé à l'autre activité qui va être le retransformer en objet
 public class Person implements Serializable {
@@ -35,6 +37,19 @@ public class Person implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person)) return false;
+        Person person = (Person) o;
+        return id == person.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
