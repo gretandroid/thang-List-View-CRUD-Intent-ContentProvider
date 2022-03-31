@@ -58,4 +58,8 @@ public class SecondActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void onClickBack(View view) {
+        finish();
+    }
 }

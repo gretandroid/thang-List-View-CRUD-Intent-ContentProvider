@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         // rajoute dans la db
         Person person = new Person(surname, name);
         PersonDao.save(person);
+        currentPersonId = person.getId();
 
         // launch second activity
         launchSecondActivity();
