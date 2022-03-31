@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
         // add to temporal stock, id sera ajouté lors que
         // rajoute dans la db
         Person person = new Person(surname, name);
-        person.setId(1); // 1 est la valeur default
         PersonDao.save(person);
 
+        // launch second activity
         launchSecondActivity();
     }
 
@@ -103,11 +103,27 @@ public class MainActivity extends AppCompatActivity {
 
         // get current Person by id
         Person person = PersonDao.findById(currentPersonId);
+
+        // update Pojo
         person.setName(name);
         person.setSurname(surname);
 
-        PersonDao.update(person);
+        // save to db
+        PersonDao.save(person);
 
+        // launch second activity
+        launchSecondActivity();
+    }
 
+    public void onClickDelete(View view) {
+
+        // get current Person by id
+        Person person = PersonDao.findById(currentPersonId);
+
+        // save to db
+        PersonDao.delete(person.getId());
+
+        // launch second activity
+        launchSecondActivity();
     }
 }

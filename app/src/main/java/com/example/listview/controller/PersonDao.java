@@ -28,6 +28,13 @@ public class PersonDao {
     }
 
     public static Person findById(int id) {
-        return personList.get(id - 1); // zero base index in List
+        return personList.stream()
+                .filter(p -> p.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static boolean delete(int id) {
+        return personList.removeIf(p -> p.getId() == id);
     }
 }
