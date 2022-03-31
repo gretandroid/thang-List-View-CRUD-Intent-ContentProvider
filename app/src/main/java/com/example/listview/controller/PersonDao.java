@@ -20,7 +20,7 @@ public class PersonDao {
             personList.add(person);
         }
 
-        return personList.get(person.getId() -1 ); // fake update
+        return findById(person.getId()); // fake update
     }
 
     public static List<Person> getAll() {
