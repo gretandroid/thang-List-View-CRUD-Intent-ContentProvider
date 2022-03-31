@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
         surnameEditText = findViewById(R.id.surnameEditText);
         nameEditText = findViewById(R.id.nameEditText);
 
-        // GetContent creates an ActivityResultLauncher<String> to allow you to pass
-        // in the mime type you'd like to allow the user to select
+        // create a launcher with a call back subscription
         intentLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
