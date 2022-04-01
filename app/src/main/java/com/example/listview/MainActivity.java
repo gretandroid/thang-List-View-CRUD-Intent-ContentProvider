@@ -132,4 +132,8 @@ public class MainActivity extends AppCompatActivity {
         // launch second activity
         launchSecondActivity();
     }
+
+    public void onClickShowAll(View view) {
+        launchSecondActivity();
+    }
 }
