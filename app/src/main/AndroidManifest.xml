@@ -21,6 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="com.example.listview.contentprovider.BaseContentProvider"
+            android:name=".contentprovider.BaseContentProvider"
+            android:exported="true"/>
     </application>
 
 </manifest>

@@ -23,6 +23,7 @@ public class SecondActivity extends AppCompatActivity {
     // define adapter pour list view
     private ListAdapter personListViewAdapter;
 
+    List<Person> persons;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +34,7 @@ public class SecondActivity extends AppCompatActivity {
 
         // get intent message sent by main activity
         Intent intent = getIntent();
-        List<Person> persons = (List<Person>) intent.getSerializableExtra(MainActivity.PERSON_LIST_KEY);
+        persons = (List<Person>) intent.getSerializableExtra(MainActivity.PERSON_LIST_KEY);
 
         // create Adapter
         personListViewAdapter = new ArrayAdapter<Person>(this, android.R.layout.simple_list_item_1, persons);
@@ -43,7 +44,7 @@ public class SecondActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // retrieve person clicked
-                Person person = PersonDao.getAll().get(position);
+                Person person = persons.get(position);
 
                 // create an intent to sent message to main activity
                 Intent intent = new Intent();

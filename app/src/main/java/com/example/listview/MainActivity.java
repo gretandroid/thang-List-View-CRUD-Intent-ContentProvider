@@ -47,26 +47,30 @@ public class MainActivity extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    // Check whether result is OK
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // retrieve the intent return by second Activity
-                        Intent data = result.getData();
-
-                        // get person in intent
-                        Person person = (Person) data.getSerializableExtra(SecondActivity.PERSON_KEY);
-                        currentPersonId = person.getId();
-
-                        // reload from db
-                        Person personFromDao = PersonDao.findById(currentPersonId);
-                        surnameEditText.setText(personFromDao.getSurname());
-                        nameEditText.setText(personFromDao.getName());
-
-                        // log & Toast
-                        Log.d("App", "Return person" + personFromDao.toString());
-                        Toast.makeText(getBaseContext(), personFromDao.toString(), Toast.LENGTH_LONG).show();
-                    }
+                    onSecondActivityResult(result);
                 }
             });
+    }
+
+    private void onSecondActivityResult(ActivityResult result) {
+        // Check whether result is OK
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            // retrieve the intent return by second Activity
+            Intent data = result.getData();
+
+            // get person in intent
+            Person person = (Person) data.getSerializableExtra(SecondActivity.PERSON_KEY);
+            currentPersonId = person.getId();
+
+            // reload from db
+            Person personFromDao = PersonDao.findById(currentPersonId, this);
+            surnameEditText.setText(personFromDao.getSurname());
+            nameEditText.setText(personFromDao.getName());
+
+            // log & Toast
+            Log.d("App", "Return person" + personFromDao.toString());
+            Toast.makeText(getBaseContext(), personFromDao.toString(), Toast.LENGTH_LONG).show();
+        }
     }
 
     public void onClickSubmit(View view) {
@@ -77,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         // add to temporal stock, id sera ajouté lors que
         // rajoute dans la db
         Person person = new Person(surname, name);
-        PersonDao.save(person);
+        PersonDao.save(person, this);
         currentPersonId = person.getId();
 
         // launch second activity
@@ -89,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SecondActivity.class);
 
         // on stock persons dans intent à envoyer SecondActivity
-        intent.putExtra(PERSON_LIST_KEY, (Serializable) PersonDao.getAll());
+        intent.putExtra(PERSON_LIST_KEY, (Serializable) PersonDao.getAll(this));
 
         // start second activity with message
         // startActivity(intent);
@@ -104,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         String name = nameEditText.getText().toString();
 
         // get current Person by id
-        Person person = PersonDao.findById(currentPersonId);
+        Person person = PersonDao.findById(currentPersonId, this);
         if (person == null) return;
 
         // update Pojo
@@ -123,10 +127,10 @@ public class MainActivity extends AppCompatActivity {
         if (currentPersonId == 0) return;
 
         // get current Person by id
-        Person person = PersonDao.findById(currentPersonId);
+        Person person = PersonDao.findById(currentPersonId, this);
 
         // save to db
-        PersonDao.delete(person.getId());
+        PersonDao.delete(person.getId(), this);
         currentPersonId = 0;
 
         // launch second activity
