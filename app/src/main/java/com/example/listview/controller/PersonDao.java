@@ -3,6 +3,7 @@ import static com.example.listview.contentprovider.ContractProvider.*;
 import static com.example.listview.contentprovider.ContractProvider.Person.*;
 
 import android.annotation.SuppressLint;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -35,7 +36,7 @@ public class PersonDao {
             person.setId(Integer.parseInt(returnedUri.getLastPathSegment()));
         }
         else { // update
-            activity.getContentResolver().update(Uri.parse(URI_PERSON.getPath() + "/" + person.getId()), contentValues, null, null);
+            activity.getContentResolver().update(ContentUris.withAppendedId(URI_PERSON, person.getId()), contentValues, null, null);
         }
         return person; // reload from base
     }
@@ -87,7 +88,7 @@ public class PersonDao {
 
     @SuppressLint("Range")
     public static Person findById(int id, Context activity) {
-        Cursor cursor = activity.getContentResolver().query(Uri.parse(URI_PERSON.getPath() + "/" + id),
+        Cursor cursor = activity.getContentResolver().query(ContentUris.withAppendedId(URI_PERSON, id),
                 null,
                 null,
                 null,
@@ -126,6 +127,6 @@ public class PersonDao {
     }
 
     public static int delete(int id, Context activity) {
-        return activity.getContentResolver().delete(Uri.parse(URI_PERSON.getPath() + "/" + id), null, null);
+        return activity.getContentResolver().delete(ContentUris.withAppendedId(URI_PERSON, id), null, null);
     }
 }

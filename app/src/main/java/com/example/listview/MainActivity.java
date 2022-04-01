@@ -62,14 +62,14 @@ public class MainActivity extends AppCompatActivity {
             Person person = (Person) data.getSerializableExtra(SecondActivity.PERSON_KEY);
             currentPersonId = person.getId();
 
-            // reload from db
-            Person personFromDao = PersonDao.findById(currentPersonId, this);
-            surnameEditText.setText(personFromDao.getSurname());
-            nameEditText.setText(personFromDao.getName());
+            // reload from db can not bind with this : Activity
+//             Person personFromDao = PersonDao.findById(currentPersonId, this);
+            surnameEditText.setText(person.getSurname());
+            nameEditText.setText(person.getName());
 
             // log & Toast
-            Log.d("App", "Return person" + personFromDao.toString());
-            Toast.makeText(getBaseContext(), personFromDao.toString(), Toast.LENGTH_LONG).show();
+            Log.d("App", "Return person" + person.toString());
+            Toast.makeText(getBaseContext(), person.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         person.setSurname(surname);
 
         // save to db
-        PersonDao.save(person);
+        PersonDao.save(person, this);
 
         // launch second activity
         launchSecondActivity();
