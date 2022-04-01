@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickModify(View view) {
+        if (currentPersonId == 0) return;
 
         // get info from UI
         String surname = surnameEditText.getText().toString();
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
         // get current Person by id
         Person person = PersonDao.findById(currentPersonId);
+        if (person == null) return;
 
         // update Pojo
         person.setName(name);
@@ -118,11 +120,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickDelete(View view) {
 
+        if (currentPersonId == 0) return;
+
         // get current Person by id
         Person person = PersonDao.findById(currentPersonId);
 
         // save to db
         PersonDao.delete(person.getId());
+        currentPersonId = 0;
 
         // launch second activity
         launchSecondActivity();
