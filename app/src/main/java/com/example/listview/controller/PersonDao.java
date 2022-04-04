@@ -19,7 +19,7 @@ import java.util.List;
 
 public class PersonDao {
 
-    // Incremental id
+    // Incremental id automatically
     private static int incrementalId = 0;
 
     // stock persons ça pourrait être dans la base
